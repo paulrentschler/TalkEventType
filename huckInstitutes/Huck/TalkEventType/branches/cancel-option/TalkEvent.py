@@ -38,6 +38,16 @@ schema = Schema((
             i18n_domain='TalkEventType',
         ),
     ),
+    
+    BooleanField(
+        name='eventCanceled',
+        widget=BooleanWidget(
+            label="The event has been canceled",
+            label_msgid='TalkEventType_label_eventCanceled',
+            i18n_domain='TalkEventType',
+        )
+    ),
+
 ),
 )
 
@@ -66,14 +76,17 @@ class TalkEvent(ATEvent):
 
     ##code-section class-header #fill in your manual code here
     schema['title'].widget.label='Speaker name'
+    schema['title'].widget.description='Enter the name of the speaker here, e.g. Joanna Bloggs'
+    schema.moveField('eventCanceled',before='title')
+    schema['eventCanceled'].widget.description='Check the box if the event has been canceled. DO NOT DELETE any information.'
     schema.moveField('speakerInstitution',after='title')
     schema['speakerInstitution'].widget.description='For example, Penn State or University of Michigan or Cambridge University, UK'
     schema.moveField('eventUrl',after='speakerInstitution')
     schema['eventUrl'].widget.description='Web address (url) with more info about the speaker. Use addresses starting http://'
     schema.moveField('location',after='description')
     schema['location'].widget.description='Where will the talk take place?'
-    schema['title'].widget.description='Enter the name of the speaker here, e.g. Joanna Bloggs'
     schema['description'].widget.description='Enter the talk title here'
+    schema['description'].default='Title to be announced'
     schema['text'].widget.description='If the speaker has an abstract, or there are special instructions for this talk, enter it here.'
     schema['attendees'].widget.visible={'edit':'invisible','view':'invisible'}
     ##/code-section class-header
