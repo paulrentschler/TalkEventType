@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- This file holds the setup configuration for the portal_javascripts tool.
+     -->
+
+<object name="portal_javascripts">
+ <!-- Javascript elements accept these parameters:
+      - 'id' (required): same rules as for stylesheets (see 'cssregistry.xml').
+      - 'expression' (optional - default: ''): a tal condition.
+      - 'inline' (optional - default: False)
+      - 'enabled' (optional - default: True): boolean
+      - 'cookable' (optional - default: True): boolean (aka 'merging allowed')
+      -->
+
+  <javascript id="talkevent.js"
+              cacheable="True" 
+              compression="safe" 
+              cookable="True"
+              enabled="True" 
+              expression="" 
+              inline="False" 
+              />
+</object>
