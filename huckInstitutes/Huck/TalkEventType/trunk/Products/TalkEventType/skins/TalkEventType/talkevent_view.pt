@@ -15,16 +15,35 @@
             Get the byline - contains details about author and modification date.
           </div>
 
-          <h1 tal:content="object_title" class="documentFirstHeading summary">
-            [Speaker's name]
+          <h1 class="documentFirstHeading summary">
+            <span tal:content="here/Title">[Speaker's Name]</span>
+            <span class="speakerInstitution" tal:condition="here/speakerInstitution">
+              (<span tal:replace="here/speakerInstitution">[Speaker's Institution]</span>)
+            </span>
           </h1>
 
-          <p tal:condition="here/speakerInstitution">(<span tal:content="here/speakerInstitution">[speaker's institution]</span>)</p>
-
-          <h2 tal:content="here/Description">[Talk title]</h2>
+          <p class="documentDescription">
+            <metal:field use-macro="python:here.widget('description', mode='view')">
+              [Talk Title]
+            </metal:field>
+          </p>
 
           <div class="portalMessage" tal:condition="here/eventCanceled|nothing">
-            PLEASE NOTE: This event has been canceled!
+            <strong>Please Note:</strong> This event has been canceled!
+          </div>
+          
+          <div class="portalMessage" 
+               tal:define="rescheduledEvent here/getRescheduledEvent|nothing"
+               tal:condition="python: not context.getEventCanceled() and context.getEventPostponed()">
+            
+            <tal:rescheduled tal:condition="rescheduledEvent">
+              <strong>Please Note:</strong> This event has been 
+              <a tal:attributes="href python:rescheduledEvent[0].absolute_url()">rescheduled for <span tal:content="python:here.toLocalizedTime(rescheduledEvent[0].start(), long_format=1)">[new date]</span></a>.
+            </tal:rescheduled>
+            
+            <tal:postponed tal:condition="not: rescheduledEvent">
+              <strong>Please Note:</strong> This event has been postponed! A new date and time will be announced later.
+            </tal:postponed>
           </div>
 
           <div class="eventDetails vcard">
@@ -83,21 +102,26 @@
                   <td class="location" tal:content="here/location">[event location]</td>
                 </tr>
                 <tr tal:condition="here/contact_name">
-                  <th i18n:translate="contact_name">Contact Name</th>
-                  <td class="fn"
-                      tal:content="here/contact_name">[contact name]</td>
-                </tr>
-                <tr tal:define="contact_email here/contact_email"
-                    tal:condition="here/contact_email">
-                  <th i18n:translate="contact_email">Contact email</th>
-                  <td class="email">
-                    <a tal:replace="structure python: here.spamProtect(contact_email)" />
+                  <th i18n:translate="contact_name">Contact Person</th>
+                  <td class="fn">
+                    <metal:field use-macro="python:here.widget('contactName', mode='view')">
+                      Contact Name
+                    </metal:field>
+                    <div tal:define="contact_email here/contact_email"
+                         tal:condition="here/contact_email">
+                      <span class="email">
+                        <a tal:content="structure python: here.spamProtect(contact_email)"
+                           id="parent-fieldname-contactEmail" />
+                      </span>
+                    </div>
+                    <div tal:condition="here/contact_phone">
+                      <span class="tel">
+                        <metal:field use-macro="python:here.widget('contactPhone', mode='view')">
+                          Phone number
+                        </metal:field>
+                      </span>
+                    </div>
                   </td>
-                </tr>
-                <tr tal:condition="here/contact_phone">
-                  <th i18n:translate="contact_phone">Contact Phone</th>
-                  <td class="tel"
-                      tal:content="here/contact_phone">[contact phone]</td>
                 </tr>
                 <tr>
                   <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
