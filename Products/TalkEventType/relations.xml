@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RelationsLibrary>
+  <RulesetCollection id="TalkEvents">
+    <Ruleset id="TalkEventRescheduledEvent" uid="">
+      <TypeConstraint id="type_constraint">
+        <allowedTargetType>
+          TalkEvent
+        </allowedTargetType>
+      </TypeConstraint>
+    </Ruleset>
+  </RulesetCollection>
+</RelationsLibrary>
