@@ -27,6 +27,7 @@ setup(name='Products.TalkEventType',
     install_requires=[
       'setuptools',
       # -*- Extra requirements: -*-
+      'Products.Relations>=0.9b1',
       ],
     entry_points="""
       # -*- Entry points: -*-
