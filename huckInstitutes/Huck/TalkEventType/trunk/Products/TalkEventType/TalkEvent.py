@@ -102,6 +102,8 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     
     # move some fields around
     schema.moveField('eventCanceled', before = 'title')
+    schema.moveField('eventPostponed', before = 'title')
+    schema.moveField('rescheduledEvent', before = 'title')
     schema.moveField('speakerInstitution', after = 'title')
     schema.moveField('eventUrl', after = 'speakerInstitution')
     schema.moveField('location', after = 'description')
