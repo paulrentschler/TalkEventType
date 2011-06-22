@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<import-steps>
+    <import-step id="talkeventtype_versioningpolicy"
+                 version="20100624-01"
+                 handler="Products.TalkEventType.setuphandlers.importVersioningPolicy"
+                 title="Import step for Products.TalkEventType to set versioning policies">
+        Loads versioning policy for Products.TalkEventType.
+    </import-step>
+    
+    <import-step id="Products.TalkEventType.setupRelations"
+                 version=""
+                 title="TalkEventType: add Relations configuration"
+                 handler="Products.TalkEventType.setuphandlers.setupRelations">
+        Import step for Products.TalkEventType to configure relations
+    </import-step>
+    
+</import-steps>

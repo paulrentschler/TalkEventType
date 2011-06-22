@@ -4,14 +4,15 @@
 from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content.event import ATEvent
-#from Products.ATContentTypes.content.schemata import finalizeATCTSchema
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from Products.Relations.field import RelationField
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 
 from Products.TalkEventType import TalkEventTypeMessageFactory as _
 from Products.TalkEventType.interfaces import ITalkEvent
 
-#from Products.CMFCore.permissions import View, ModifyPortalContent
-#from AccessControl import ClassSecurityInfo
+from Products.CMFCore.permissions import View, ModifyPortalContent
+from AccessControl import ClassSecurityInfo
 
 
 TalkEventSchema = ATEvent.schema.copy() + atapi.Schema((
@@ -33,9 +34,37 @@ TalkEventSchema = ATEvent.schema.copy() + atapi.Schema((
         widget = atapi.BooleanWidget(
             label = _(u'The event has been canceled'),
             label_msgid = 'TalkEventType_label_eventCanceled',
-            description = _('If the event is canceled, check this box and CHANGE NOTHING ELSE!'),
+            description = _(u'If the event is canceled, check this box and CHANGE NOTHING ELSE!'),
             i18n_domain = 'TalkEventType',
         )
+    ),
+    
+    atapi.BooleanField(
+        name = 'eventPostponed',
+        widget = atapi.BooleanWidget(
+            label = _(u'The event has been postponed'),
+            label_msgid = 'TalkEventType_label_eventPostponed',
+            description = _(u'If the event is postponed and will be rescheduled, check this box and CHANGE NOTHING ELSE!'),
+            i18n_domain = 'TalkEventType',
+        )
+    ),
+
+    RelationField(
+        name = 'rescheduledEvent',
+        required = False,
+        searchable = False,
+        widget = ReferenceBrowserWidget(
+            label = _(u'Rescheduled event'),
+            description = _(u'Click the Add button and find the NEW event that is replacing this one.'),
+            base_query = "_search_talk_events",
+            allow_browse = 1,
+            allow_search = 1,
+            show_results_without_query = 1,
+            startup_directory_method = "_get_events_path",
+        ),
+        allowed_types = ('TalkEvent'),
+        multiValued = False,
+        relationship = 'TalkEventRescheduledEvent',
     ),
 
 ),
@@ -53,7 +82,7 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     meta_type = 'TalkEvent'
     _at_rename_after_creation = True
     schema = TalkEventSchema
-#    security = ClassSecurityInfo()
+    security = ClassSecurityInfo()
 
     # update the labels and descriptions of existing fields
     schema['title'].widget.label = 'Speaker\'s name'
@@ -68,8 +97,8 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     schema['contactPhone'].widget.description = 'Format: ###-###-####  e.g. 814-555-1212'
     
     # add a validator to the contact e-mail and phone number
-    schema['contactEmail'].validators = 'isEmail'
-    schema['contactPhone'].validators = 'isUSPhoneNumber'
+    #schema['contactEmail'].validators = ('isEmail',)   <-- TypeError: 'tuple' object is not callable
+    #schema['contactPhone'].validators = 'isUSPhoneNumber'  <-- TypeError: 'str' object is not callable
     
     # move some fields around
     schema.moveField('eventCanceled', before = 'title')
@@ -79,6 +108,29 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     
     # hide the attendees cause we don't use them
     schema['attendees'].widget.visible={'edit':'invisible', 'view':'invisible'}
+
+
+    def getRescheduledEvent(self):
+        """Returns the referenced event that replaces this one
+           """
+        return self.getReferences(relationship='TalkEventRescheduledEvent')
+
+
+    ###
+    # Methods to limit the referenceBrowserWidget start directory and search results    
+    security.declareProtected(ModifyPortalContent, '_get_events_path')
+    def _get_events_path(self):
+        """Return the path to the object's parent
+           """
+        return '/'.join(self.getPhysicalPath())
+
+    security.declareProtected(ModifyPortalContent, '_search_talk_events')
+    def _search_talk_events(self):
+        """Return a query dictionary to limit the search parameters for a reference browser
+           widget query. Search only for TalkEvents.
+           """
+        return {'portal_type': 'TalkEvent',
+                'sort_on': 'sortable_title'}
 
 
 
