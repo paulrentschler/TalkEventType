@@ -65,7 +65,11 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     schema['text'].widget.label = 'Talk details'
     schema['text'].widget.description = 'If the speaker has an abstract, or there are special instructions for this talk, enter it here.'
     schema['contactName'].widget.description = 'Who should people contact if they have questions about the talk or want to meet the speaker?'
-    schema['contactPhone'].widget.description = 'Format: ###-###-####  Example: 814-555-1212'
+    schema['contactPhone'].widget.description = 'Format: ###-###-####  e.g. 814-555-1212'
+    
+    # add a validator to the contact e-mail and phone number
+    schema['contactEmail'].validators = 'isEmail'
+    schema['contactPhone'].validators = 'isUSPhoneNumber'
     
     # move some fields around
     schema.moveField('eventCanceled', before = 'title')
