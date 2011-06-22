@@ -1,0 +1,21 @@
+Changelog
+=========
+
+1.0 (Unknown)
+----------------
+* Initial product developed by Catherine Williams for
+   Plone 2.5
+
+
+2.0 (Unknown)
+----------------
+* Product upgraded to work with Plone 3 and ownership
+   transferred to Paul Rentschler.
+
+
+3.0 (Unreleased)
+----------------
+* Converted to an egg product compatible with Plone 3.
+* Merged in the option to cancel a talk from a branch.
+* Added the ability to indicate that a talk has been
+   postponed.

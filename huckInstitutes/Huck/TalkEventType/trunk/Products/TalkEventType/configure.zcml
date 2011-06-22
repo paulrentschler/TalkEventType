@@ -1,0 +1,24 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           xmlns:cmf="http://namespaces.zope.org/cmf"
+           i18n_domain="Products.TalkEventType">
+
+    <genericsetup:registerProfile
+        name="default"
+        title="TalkEventType"
+        directory="profiles/default"
+        description="A event specific to speakers giving talks."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="TalkEventType"
+        directory="profiles/uninstall"
+        description="Removes the Talk Event Type."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+    <cmf:registerDirectory name="TalkEventType"/>
+
+</configure>
