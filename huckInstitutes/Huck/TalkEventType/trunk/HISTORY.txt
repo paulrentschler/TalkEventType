@@ -18,4 +18,4 @@ Changelog
 * Converted to an egg product compatible with Plone 3.
 * Merged in the option to cancel a talk from a branch.
 * Added the ability to indicate that a talk has been
-   postponed.
+   postponed or rescheduled.
