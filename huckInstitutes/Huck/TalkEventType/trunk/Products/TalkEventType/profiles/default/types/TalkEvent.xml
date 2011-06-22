@@ -11,8 +11,9 @@
  <property name="factory">addTalkEvent</property>
  <property name="immediate_view">talkevent_view</property>
  <property name="global_allow">True</property>
- <property name="filter_content_types">True</property>
- <property name="allowed_content_types"/>
+ <property name="filter_content_types">False</property>
+ <property name="allowed_content_types">
+ </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">talkevent_view</property>
  <property name="view_methods">

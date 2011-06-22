@@ -1,6 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-           xmlns:cmf="http://namespaces.zope.org/cmf"
            i18n_domain="Products.TalkEventType">
 
     <genericsetup:registerProfile
@@ -18,7 +17,5 @@
         description="Removes the Talk Event Type."
         provides="Products.GenericSetup.interfaces.EXTENSION"
     />
-
-    <cmf:registerDirectory name="TalkEventType"/>
 
 </configure>

@@ -12,7 +12,7 @@
           remove="True"/>
     
   <skin-path name="*">
-		<layer name="TalkEventType" remove="True" />
+    <layer name="TalkEventType" remove="True" />
   </skin-path>
 
 </object>

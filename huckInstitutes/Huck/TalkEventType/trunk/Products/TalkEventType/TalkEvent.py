@@ -14,7 +14,7 @@ from Products.TalkEventType.interfaces import ITalkEvent
 #from AccessControl import ClassSecurityInfo
 
 
-TalkEventSchema = ATEvent.ATEventSchema.copy() + atapi.Schema((
+TalkEventSchema = ATEvent.schema.copy() + atapi.Schema((
 
     atapi.StringField(
         name = 'speakerInstitution',
@@ -47,11 +47,11 @@ TalkEventSchema = ATEvent.ATEventSchema.copy() + atapi.Schema((
 
 class TalkEvent(ATEvent, HistoryAwareMixin):
     """A Talk Event"""
-    implements(interfaces.ITalkEvent)
+    implements(ITalkEvent)
 
 
     meta_type = 'TalkEvent'
-#    _at_rename_after_creation = True
+    _at_rename_after_creation = True
     schema = TalkEventSchema
 #    security = ClassSecurityInfo()
 
@@ -63,7 +63,9 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
     schema['description'].widget.description = 'Enter the talk title here'
     schema['description'].default = 'Title to be announced'
     schema['text'].widget.label = 'Talk details'
-    schema['text'].widget.description='If the speaker has an abstract, or there are special instructions for this talk, enter it here.'
+    schema['text'].widget.description = 'If the speaker has an abstract, or there are special instructions for this talk, enter it here.'
+    schema['contactName'].widget.description = 'Who should people contact if they have questions about the talk or want to meet the speaker?'
+    schema['contactPhone'].widget.description = 'Format: ###-###-####  Example: 814-555-1212'
     
     # move some fields around
     schema.moveField('eventCanceled', before = 'title')
