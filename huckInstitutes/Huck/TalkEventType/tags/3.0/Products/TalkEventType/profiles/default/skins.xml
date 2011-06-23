@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+    <object name="TalkEventType"
+         meta_type="Filesystem Directory View"
+         directory="Products.TalkEventType:skins/TalkEventType" />
+    <skin-path name="*">
+        <layer name="TalkEventType" insert-before="custom"/>
+    </skin-path>
+</object>
