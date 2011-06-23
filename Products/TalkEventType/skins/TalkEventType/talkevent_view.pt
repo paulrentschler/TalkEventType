@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                   <th i18n:translate="event_when">When</th>
-                  <td>
+                  <td tal:attributes="class python:here.getEventStatus()">
                     <tal:differentday tal:condition="python:not here.start().Date() == here.end().Date()">
                       <abbr class="dtstart"
                             tal:attributes="title python:here.start()"
