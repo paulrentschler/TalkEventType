@@ -118,6 +118,27 @@ class TalkEvent(ATEvent, HistoryAwareMixin):
         return self.getReferences(relationship='TalkEventRescheduledEvent')
 
 
+    def getEventStatus(self):
+        """Returns one word (lower-case) to indicate the current status
+             of the event. Can be used as a CSS class for styling.
+           Choices are:
+             - scheduled
+             - canceled
+             - postponed
+             - rescheduled
+           """
+        status = "scheduled"
+        if (self.eventCanceled):
+            status = "canceled"
+        elif (self.eventPostponed):
+            if (len(self.getRescheduledEvent()) > 0):
+                status = "rescheduled"
+            else:
+                status = "postponed"
+                
+        return status
+
+
     ###
     # Methods to limit the referenceBrowserWidget start directory and search results    
     security.declareProtected(ModifyPortalContent, '_get_events_path')
