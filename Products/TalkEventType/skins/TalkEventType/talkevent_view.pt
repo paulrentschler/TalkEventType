@@ -4,23 +4,19 @@
       i18n:domain="plone">
 
   <body>
-    <div metal:fill-slot="main">
+      <div metal:fill-slot="main" tal:define="here_url context/@@plone_context_state/object_url">
       <tal:main-macro metal:define-macro="main">
-        <div metal:use-macro="here/document_actions/macros/document_actions">
-          Document actions (print, sendto etc)
-        </div>
-
         <div class="vevent">
-          <div metal:use-macro="here/document_byline/macros/byline">
-            Get the byline - contains details about author and modification date.
-          </div>
-
+          <div id="viewlet-above-content-title" tal:content="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
+      
           <h1 class="documentFirstHeading summary">
             <span tal:content="here/Title">[Speaker's Name]</span>
             <span class="speakerInstitution" tal:condition="here/speakerInstitution">
               (<span tal:replace="here/speakerInstitution">[Speaker's Institution]</span>)
             </span>
           </h1>
+
+          <div id="viewlet-below-content-title" tal:content="structure provider:plone.belowcontenttitle" tal:condition="not:ajax_load" />
 
           <p class="documentDescription">
             <metal:field use-macro="python:here.widget('description', mode='view')">
@@ -46,17 +42,13 @@
             </tal:postponed>
           </div>
 
+          <div id="viewlet-above-content-body" tal:content="structure provider:plone.abovecontentbody" tal:condition="not:ajax_load" />
+          
           <div class="eventDetails vcard">
             <table class="vertical listing"
                    summary="Event details" i18n:attributes="summary summary_event_details;">
 
               <tbody>
-                <tr>
-                  <th i18n:translate="event_what">What</th>
-                  <td tal:content="python:modules['string'].join(here.Subject(), ' ')">
-                    Conference
-                  </td>
-                </tr>
                 <tr>
                   <th i18n:translate="event_when">When</th>
                   <td tal:attributes="class python:here.getEventStatus()">
@@ -157,6 +149,9 @@
           </p>
 
         </div>
+
+        <!-- don't show the plone.belowcontentbody viewlet because it is ugly in sunburst -->
+        <!-- <div id="viewlet-below-content-body" tal:content="structure provider:plone.belowcontentbody" tal:condition="not:ajax_load" /> -->
 
         <div metal:use-macro="here/document_relateditems/macros/relatedItems">
           show related items if they exist

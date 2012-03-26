@@ -28,6 +28,7 @@ setup(name='Products.TalkEventType',
       'setuptools',
       # -*- Extra requirements: -*-
       'Products.Relations>=0.8.1',
+      'Products.CMFPlone>=4.1',
       ],
     entry_points="""
       # -*- Entry points: -*-
