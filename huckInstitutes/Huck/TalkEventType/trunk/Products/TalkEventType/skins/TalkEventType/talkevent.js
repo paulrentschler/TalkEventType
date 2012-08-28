@@ -40,7 +40,11 @@ jq(document).ready( function () {
         jq("#archetypes-fieldname-rescheduledEvent").show();
       } else {
         // make sure the reference has been deleted
-        if (jq("#rescheduledEvent_label").val() != "") {
+        if ((jq("#rescheduledEvent_label").val() != "No reference set. Click the add button to select."
+          && jq("#rescheduledEvent_label").val() != "")
+          && (jq("#ref_browser_rescheduledEvent_label").val() != "No reference set. Click the add button to select."
+          && jq("#ref_browser_rescheduledEvent_label").val() != "")
+        ) {
           // tell the user to delete the reference
           alert("If this event is no longer postponed, please clear the rescheduled event field by clicking the Remove Reference button.");
           jq("#archetypes-fieldname-eventPostponed input").attr('checked','checked');
